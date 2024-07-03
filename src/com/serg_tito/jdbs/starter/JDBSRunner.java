@@ -10,17 +10,18 @@ public class JDBSRunner {
 
         Class<Driver> driverClass = Driver.class;
         String sql = """
-                CREATE TABLE IF NOT EXISTS info(
-                id SERIAL PRIMARY KEY ,
-                data TEXT NOT NULL
-                );
+                UPDATE info
+                SET data = 'testTEST'
+                WHERE id = 5
+                RETURNING *
                 """;
         try (var connection = ConnectionManager.open();
              var statement = connection.createStatement()) {
             System.out.println(connection.getSchema());
             System.out.println(connection.getTransactionIsolation());
-            var executeResult = statement.execute(sql);
+            var executeResult = statement.executeUpdate(sql);
             System.out.println(executeResult);
+
         }
 
     }
